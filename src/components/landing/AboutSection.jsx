@@ -31,7 +31,7 @@ const values = [
   {
     icon: Star,
     title: "שייכות",
-    description: "כל ילד מרגיש שרואים ושומעים אותו — חלק מהקבוצה"
+    description: "כל ילד מרגיש שרואים ושומעים אותו - חלק מהקבוצה"
   }
 ];
 
@@ -52,7 +52,7 @@ export default function AboutSection() {
           </h2>
           <p className="text-blue-100/60 text-lg max-w-3xl mx-auto leading-relaxed">
             המחנה נבנה מתוך רצון ליצור חוויה שהיא הרבה מעבר לאימוני כדורגל. 
-            הרעיון המרכזי הוא להשתמש בספורט כשפה חינוכית ורגשית — שמאפשרת לילדים 
+            הרעיון המרכזי הוא להשתמש בספורט כשפה חינוכית ורגשית - שמאפשרת לילדים 
             להתנסות, לטעות, להצליח, להרגיש ולהיות חלק מקבוצה.
           </p>
           <p className="text-blue-300 text-base mt-4 font-semibold">
