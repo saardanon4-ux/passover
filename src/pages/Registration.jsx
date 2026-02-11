@@ -4,6 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Link } from "react-router-dom";
@@ -23,7 +24,8 @@ export default function Registration() {
     shirt_size: "",
     health_declaration: false,
     payment_terms_accepted: false,
-    signature_url: ""
+    signature_url: "",
+    notes: ""
   });
 
   const [showSignaturePad, setShowSignaturePad] = useState(false);
@@ -251,6 +253,18 @@ export default function Registration() {
               </div>
             </div>
             {errors.payment_terms_accepted && <p className="text-red-400 text-xs">{errors.payment_terms_accepted}</p>}
+          </div>
+
+          {/* Notes */}
+          <div className="space-y-2">
+            <Label className="text-blue-100/80 text-sm font-medium">הערות והעדפות (אופציונלי)</Label>
+            <Textarea
+              value={form.notes}
+              onChange={(e) => updateField("notes", e.target.value)}
+              placeholder="בקשות או הערות מיוחדות בקשר לארוחת הבוקר, אלרגיות, העדפות תזונתיות וכו׳..."
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/20 focus:border-blue-500/50 min-h-24 resize-none"
+              rows={3}
+            />
           </div>
 
           {/* Signature */}

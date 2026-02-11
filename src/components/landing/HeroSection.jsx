@@ -87,7 +87,7 @@ export default function HeroSection() {
           </div>
           <div className="flex items-center gap-2 text-blue-200/80">
             <Users className="w-5 h-5" />
-            <span className="text-sm md:text-base">2 קבוצות גיל</span>
+            <span className="text-sm md:text-base">כיתות ד׳ - ו׳</span>
           </div>
           <div className="flex items-center gap-2 text-blue-200/80">
             <Trophy className="w-5 h-5" />

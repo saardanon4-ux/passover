@@ -75,6 +75,7 @@ export default function PricingSection() {
               <div className="space-y-3 text-right">
                 {[
                   "5 ימי מחנה מושקעים",
+                  "ארוחת בוקר עשירה בכל יום 🍳",
                   "אימוני כדורגל + ספורט מגוון",
                   "פעילויות ערכיות ורגשיות",
                   "חולצת מחנה",
