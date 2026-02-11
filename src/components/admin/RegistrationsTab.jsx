@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, Eye } from "lucide-react";
+import { ArrowUpDown, Eye, MessageSquare } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { format } from "date-fns";
 
@@ -67,6 +68,7 @@ export default function RegistrationsTab({ registrations }) {
               <SortableHeader field="shirt_size">מידה</SortableHeader>
               <SortableHeader field="status">סטטוס</SortableHeader>
               <SortableHeader field="created_date">תאריך הרשמה</SortableHeader>
+              <TableHead className="text-right text-blue-200/70">הערות</TableHead>
               <TableHead className="text-right text-blue-200/70">פעולות</TableHead>
             </TableRow>
           </TableHeader>
@@ -83,6 +85,24 @@ export default function RegistrationsTab({ registrations }) {
                 </TableCell>
                 <TableCell className="text-blue-100/70">
                   {reg.created_date ? format(new Date(reg.created_date), "dd/MM/yyyy") : "-"}
+                </TableCell>
+                <TableCell>
+                  {reg.notes ? (
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center cursor-pointer hover:bg-amber-500/30 transition-colors">
+                            <MessageSquare className="w-4 h-4 text-amber-400" />
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="bg-[#0f2044] border-white/10 text-white max-w-xs" dir="rtl">
+                          <p className="text-sm">{reg.notes}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  ) : (
+                    <span className="text-blue-200/30">-</span>
+                  )}
                 </TableCell>
                 <TableCell>
                   <Button
