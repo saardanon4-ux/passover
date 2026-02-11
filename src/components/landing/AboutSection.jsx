@@ -76,9 +76,33 @@ export default function AboutSection() {
           ))}
         </div>
 
+        {/* Special Highlight - Soccer Player */}
+        <motion.div
+          className="mt-16 bg-gradient-to-br from-amber-500/15 to-yellow-500/10 rounded-3xl p-8 md:p-12 border-2 border-amber-500/20"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Star className="w-8 h-8 text-amber-400" />
+            <h3 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-amber-300 to-yellow-400">
+              חוויה מיוחדת!
+            </h3>
+            <Star className="w-8 h-8 text-amber-400" />
+          </div>
+          <p className="text-blue-100/90 text-lg md:text-xl text-center leading-relaxed font-medium">
+            מפגש עם שחקן כדורגל מליגת העל! 🌟
+            <br />
+            <span className="text-blue-100/70 text-base md:text-lg block mt-2">
+              השחקן ישתף על הדרך שעבר, האתגרים שהתמודד איתם, וחוויות מהמגרש המקצועי
+            </span>
+          </p>
+        </motion.div>
+
         {/* Activities list */}
         <motion.div
-          className="mt-16 bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-3xl p-8 md:p-12 border border-blue-500/10"
+          className="mt-10 bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-3xl p-8 md:p-12 border border-blue-500/10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -90,7 +114,6 @@ export default function AboutSection() {
               "אימוני כדורגל חווייתיים עם דגש על שיתוף פעולה",
               "משחקים קבוצתיים שמחזקים עבודת צוות ותקשורת",
               "תרגילי התמודדות עם תסכול והצלחה בצורה מכילה",
-              "שיחות מעגל — מקום למה שהילדים מרגישים",
               "פעילויות גיבוש שמחזקות שייכות וחברות",
               "חיבור לערכים: כבוד, אחריות, הקשבה והתמדה"
             ].map((activity, i) => (

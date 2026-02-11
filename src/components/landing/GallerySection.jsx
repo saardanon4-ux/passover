@@ -2,14 +2,24 @@ import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight, ChevronLeft, Camera } from "lucide-react";
 
-// Placeholder images — replace with actual camp photos
+// Actual camp photos
 const galleryImages = [
-  "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80",
-  "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?w=800&q=80",
-  "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80",
-  "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80",
-  "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80",
-  "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800&q=80",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/3613e7b27_4AC1A0E4-1A37-41C9-A619-061406F05986.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/5d9d1f631_617e2221-2c6a-43c8-8b7e-e513de09a851.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/7a8a2ef14_fdd7bc52-22eb-4376-8e21-d9e8b9d38c25.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/428522e91_IMG_5129.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/434aa6ec0_IMG_5138.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/60def314c_IMG_5149.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/88e931fde_IMG_5161.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/675ccabcb_IMG_5263.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/06abd7704_IMG_5306.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/80d61e086_IMG_5325.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/a2fd2c185_IMG_5367.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/bd8c07895_IMG_5479.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/e24044c97_IMG_5505.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/08903d72a_IMG_5719.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/16913bd84_IMG_5728.jpg",
+  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698c158b7df8a2d4f6193ac5/20d60d206_IMG_5839.jpg",
 ];
 
 export default function GallerySection() {
@@ -86,7 +96,7 @@ export default function GallerySection() {
         </div>
 
         <p className="text-center text-blue-200/30 text-xs mt-6">
-          * תמונות להמחשה ממחנות קודמים
+          * תמונות ממחנות קודמים
         </p>
       </div>
     </section>
