@@ -92,7 +92,7 @@ export default function PaymentsTab({ registrations, payments }) {
   return (
     <div className="space-y-4">
       <div className="bg-white/5 rounded-xl border border-white/10 overflow-hidden">
-        <Table>
+        <Table dir="rtl">
           <TableHeader>
             <TableRow className="border-white/10 hover:bg-transparent">
               <TableHead className="text-right text-blue-200/70">שולם</TableHead>
