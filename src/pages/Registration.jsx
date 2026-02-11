@@ -199,7 +199,7 @@ export default function Registration() {
                   <SelectValue placeholder="בחר מידה" />
                 </SelectTrigger>
                 <SelectContent className="bg-[#0f2044] border-white/10">
-                  {["XS", "S", "M", "L", "XL"].map(size => (
+                  {["8", "10", "12", "14", "16", "S", "M", "L", "XL"].map(size => (
                     <SelectItem key={size} value={size} className="text-white hover:bg-white/10">{size}</SelectItem>
                   ))}
                 </SelectContent>

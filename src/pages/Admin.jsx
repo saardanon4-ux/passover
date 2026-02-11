@@ -109,7 +109,7 @@ export default function Admin() {
           </div>
         ) : (
           <Tabs defaultValue="registrations" className="space-y-6">
-            <TabsList className="bg-white/5 border border-white/10 p-1 rounded-xl flex-wrap h-auto gap-1">
+            <TabsList className="bg-white/5 border border-white/10 p-1 rounded-xl flex-wrap h-auto gap-1" dir="rtl">
               <TabsTrigger
                 value="registrations"
                 className="data-[state=active]:bg-blue-500 data-[state=active]:text-white text-blue-200/60 rounded-lg px-4 py-2 flex items-center gap-2"

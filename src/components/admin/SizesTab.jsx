@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shirt } from "lucide-react";
 
-const sizes = ["XS", "S", "M", "L", "XL"];
+const sizes = ["8", "10", "12", "14", "16", "S", "M", "L", "XL"];
 
 export default function SizesTab({ registrations }) {
   const sizeCounts = sizes.reduce((acc, size) => {
