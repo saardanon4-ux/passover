@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { base44 } from "@/api/base44Client";
+import { supabase } from "@/lib/supabaseClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,7 @@ export default function Registration() {
   const [form, setForm] = useState({
     child_name: "",
     parent_name: "",
+    parent_email: "",
     parent_phone: "",
     grade: "",
     shirt_size: "",
@@ -41,10 +42,14 @@ export default function Registration() {
     }
   };
 
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email?.trim() ?? "");
+
   const validate = () => {
     const newErrors = {};
     if (!form.child_name.trim()) newErrors.child_name = "שדה חובה";
     if (!form.parent_name.trim()) newErrors.parent_name = "שדה חובה";
+    if (!form.parent_email.trim()) newErrors.parent_email = "שדה חובה";
+    else if (!isValidEmail(form.parent_email)) newErrors.parent_email = "נא להזין כתובת מייל תקנית";
     if (!form.parent_phone.trim()) newErrors.parent_phone = "שדה חובה";
     if (!form.grade) newErrors.grade = "שדה חובה";
     if (!form.shirt_size) newErrors.shirt_size = "שדה חובה";
@@ -60,24 +65,65 @@ export default function Registration() {
     if (!validate()) return;
 
     setSubmitting(true);
+    try {
+      // Upload signature to Supabase Storage if it's a data URL
+      let signatureUrl = form.signature_url;
+      if (form.signature_url.startsWith("data:")) {
+        const blob = await (await fetch(form.signature_url)).blob();
+        const file = new File([blob], "signature.png", { type: "image/png" });
+        const fileName = `${Date.now()}-${crypto.randomUUID()}.png`;
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("signatures")
+          .upload(fileName, file, { contentType: "image/png", upsert: false });
+        if (uploadError) throw uploadError;
+        const { data: { publicUrl } } = supabase.storage.from("signatures").getPublicUrl(uploadData.path);
+        signatureUrl = publicUrl;
+      }
 
-    // Upload signature
-    let signatureUrl = form.signature_url;
-    if (form.signature_url.startsWith("data:")) {
-      const blob = await (await fetch(form.signature_url)).blob();
-      const file = new File([blob], "signature.png", { type: "image/png" });
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
-      signatureUrl = file_url;
+      const { error } = await supabase.from("registration").insert([
+        {
+          child_name: form.child_name,
+          parent_name: form.parent_name,
+          parent_email: form.parent_email.trim(),
+          parent_phone: form.parent_phone,
+          grade: form.grade,
+          shirt_size: form.shirt_size,
+          health_declaration: form.health_declaration,
+          payment_terms_accepted: form.payment_terms_accepted,
+          signature_url: signatureUrl,
+          notes: form.notes || null,
+          status: "pending"
+        }
+      ]);
+
+      if (error) throw error;
+
+      // Webhook after successful registration
+      const webhookPayload = {
+        child_name: form.child_name,
+        parent_name: form.parent_name,
+        parent_email: form.parent_email.trim(),
+        grade: form.grade,
+        shirt_size: form.shirt_size,
+        notes: form.notes || ""
+      };
+      try {
+        await fetch("https://n8n.mantra-os.com/webhook/harshamapesah", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(webhookPayload)
+        });
+      } catch (webhookErr) {
+        console.warn("Webhook failed (registration was saved):", webhookErr);
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      console.error("Registration failed:", err);
+      setErrors({ submit: err.message || "שגיאה בשליחת ההרשמה. נסו שוב." });
+    } finally {
+      setSubmitting(false);
     }
-
-    await base44.entities.Registration.create({
-      ...form,
-      signature_url: signatureUrl,
-      status: "pending"
-    });
-
-    setSubmitting(false);
-    setSubmitted(true);
   };
 
   const handleSignatureSave = (dataUrl) => {
@@ -160,6 +206,20 @@ export default function Registration() {
               className="bg-white/5 border-white/10 text-white placeholder:text-white/20 focus:border-blue-500/50 h-12"
             />
             {errors.parent_name && <p className="text-red-400 text-xs">{errors.parent_name}</p>}
+          </div>
+
+          {/* Parent Email */}
+          <div className="space-y-2">
+            <Label className="text-blue-100/80 text-sm font-medium">מייל הורה</Label>
+            <Input
+              type="email"
+              value={form.parent_email}
+              onChange={(e) => updateField("parent_email", e.target.value)}
+              placeholder="parent@example.com"
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/20 focus:border-blue-500/50 h-12"
+              dir="ltr"
+            />
+            {errors.parent_email && <p className="text-red-400 text-xs">{errors.parent_email}</p>}
           </div>
 
           {/* Parent Phone */}
@@ -306,6 +366,7 @@ export default function Registration() {
             )}
           </div>
 
+          {errors.submit && <p className="text-red-400 text-sm">{errors.submit}</p>}
           {/* Submit */}
           <Button
             type="submit"

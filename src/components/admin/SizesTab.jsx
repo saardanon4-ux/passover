@@ -33,9 +33,9 @@ export default function SizesTab({ registrations }) {
               </div>
             ))}
           </div>
-          <div className="mt-6 pt-4 border-t border-white/10 flex justify-between items-center">
-            <span className="text-blue-200/70">סה״כ חולצות לייצור:</span>
+          <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
             <span className="text-2xl font-bold text-white">{totalShirts}</span>
+            <span className="text-blue-200/70">סה״כ חולצות לייצור:</span>
           </div>
         </CardContent>
       </Card>

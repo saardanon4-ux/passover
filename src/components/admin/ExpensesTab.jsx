@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { base44 } from "@/api/base44Client";
+import { supabase } from "@/lib/supabaseClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -45,7 +45,11 @@ export default function ExpensesTab({ expenses }) {
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
-    mutationFn: (data) => base44.entities.Expense.create(data),
+    mutationFn: async (data) => {
+      const { data: inserted, error } = await supabase.from("expenses").insert([data]).select().single();
+      if (error) throw error;
+      return inserted;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
       setEditingExpense(null);
@@ -53,7 +57,11 @@ export default function ExpensesTab({ expenses }) {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.Expense.update(id, data),
+    mutationFn: async ({ id, data }) => {
+      const { data: updated, error } = await supabase.from("expenses").update(data).eq("id", id).select().single();
+      if (error) throw error;
+      return updated;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
       setEditingExpense(null);
@@ -61,7 +69,10 @@ export default function ExpensesTab({ expenses }) {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => base44.entities.Expense.delete(id),
+    mutationFn: async (id) => {
+      const { error } = await supabase.from("expenses").delete().eq("id", id);
+      if (error) throw error;
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["expenses"] })
   });
 

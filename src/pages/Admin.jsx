@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { base44 } from "@/api/base44Client";
+import { supabase } from "@/lib/supabaseClient";
 import { useQuery } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "../utils";
 import { ArrowRight, Users, Shirt, CreditCard, Receipt, BarChart3, Loader2, ShieldAlert } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 import RegistrationsTab from "../components/admin/RegistrationsTab";
 import SizesTab from "../components/admin/SizesTab";
@@ -17,12 +20,16 @@ const LOGO_URL = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/pub
 export default function Admin() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const user = await base44.auth.me();
-        setCurrentUser(user);
+        const { data: { session } } = await supabase.auth.getSession();
+        setCurrentUser(session?.user ? { ...session.user, role: "admin" } : null);
       } catch (e) {
         setCurrentUser(null);
       }
@@ -33,19 +40,37 @@ export default function Admin() {
 
   const { data: registrations = [], isLoading: loadingReg } = useQuery({
     queryKey: ["registrations"],
-    queryFn: () => base44.entities.Registration.list("-created_date"),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("registration")
+        .select("*")
+        .order("created_date", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
     enabled: currentUser?.role === "admin"
   });
 
   const { data: payments = [], isLoading: loadingPay } = useQuery({
     queryKey: ["payments"],
-    queryFn: () => base44.entities.Payment.list(),
+    queryFn: async () => {
+      const { data, error } = await supabase.from("payments").select("*");
+      if (error) throw error;
+      return data ?? [];
+    },
     enabled: currentUser?.role === "admin"
   });
 
   const { data: expenses = [], isLoading: loadingExp } = useQuery({
     queryKey: ["expenses"],
-    queryFn: () => base44.entities.Expense.list("-created_date"),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("expenses")
+        .select("*")
+        .order("created_date", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
     enabled: currentUser?.role === "admin"
   });
 
@@ -58,17 +83,59 @@ export default function Admin() {
   }
 
   if (!currentUser || currentUser.role !== "admin") {
+    const handleLogin = async (e) => {
+      e.preventDefault();
+      setLoginError("");
+      setIsLoggingIn(true);
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({ email: loginEmail, password: loginPassword });
+        if (error) throw error;
+        setCurrentUser(data.user ? { ...data.user, role: "admin" } : null);
+      } catch (err) {
+        setLoginError(err.message || "שגיאה בהתחברות");
+      }
+      setIsLoggingIn(false);
+    };
+
     return (
       <div className="min-h-screen bg-[#0d1b2a] flex items-center justify-center px-4" dir="rtl">
-        <div className="text-center max-w-md">
-          <div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <ShieldAlert className="w-10 h-10 text-red-400" />
+        <div className="text-center max-w-md w-full">
+          <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <ShieldAlert className="w-10 h-10 text-blue-400" />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-3">אין גישה</h1>
-          <p className="text-blue-100/60 mb-6">עמוד זה מיועד למנהלים בלבד.</p>
+          <h1 className="text-2xl font-bold text-white mb-3">התחברות מנהל</h1>
+          <p className="text-blue-100/60 mb-6">יש להתחבר כדי לגשת למערכת הניהול.</p>
+          <form onSubmit={handleLogin} className="space-y-4 text-right">
+            <div className="space-y-2">
+              <Label className="text-blue-100/80">אימייל</Label>
+              <Input
+                type="email"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                placeholder="admin@example.com"
+                className="bg-white/5 border-white/10 text-white"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-blue-100/80">סיסמה</Label>
+              <Input
+                type="password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                className="bg-white/5 border-white/10 text-white"
+                required
+              />
+            </div>
+            {loginError && <p className="text-red-400 text-sm">{loginError}</p>}
+            <Button type="submit" disabled={isLoggingIn} className="w-full bg-blue-500 hover:bg-blue-600">
+              {isLoggingIn ? <Loader2 className="w-4 h-4 animate-spin ml-2" /> : null}
+              התחבר
+            </Button>
+          </form>
           <Link
             to={createPageUrl("Home")}
-            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300"
+            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 mt-6 text-sm"
           >
             <ArrowRight className="w-4 h-4" />
             חזרה לדף הבית

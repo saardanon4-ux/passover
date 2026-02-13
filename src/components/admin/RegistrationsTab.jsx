@@ -63,6 +63,7 @@ export default function RegistrationsTab({ registrations }) {
             <TableRow className="border-white/10 hover:bg-transparent">
               <SortableHeader field="child_name">שם הילד/ה</SortableHeader>
               <SortableHeader field="parent_name">שם ההורה</SortableHeader>
+              <TableHead className="text-right text-blue-200/70">מייל הורה</TableHead>
               <SortableHeader field="parent_phone">טלפון</SortableHeader>
               <SortableHeader field="grade">כיתה</SortableHeader>
               <SortableHeader field="shirt_size">מידה</SortableHeader>
@@ -77,6 +78,7 @@ export default function RegistrationsTab({ registrations }) {
               <TableRow key={reg.id} className="border-white/10 hover:bg-white/5">
                 <TableCell className="text-white font-medium">{reg.child_name}</TableCell>
                 <TableCell className="text-blue-100/70">{reg.parent_name}</TableCell>
+                <TableCell className="text-blue-100/70" dir="ltr">{reg.parent_email || "-"}</TableCell>
                 <TableCell className="text-blue-100/70" dir="ltr">{reg.parent_phone}</TableCell>
                 <TableCell className="text-blue-100/70">{reg.grade}׳</TableCell>
                 <TableCell className="text-blue-100/70">{reg.shirt_size}</TableCell>
@@ -135,6 +137,10 @@ export default function RegistrationsTab({ registrations }) {
                 <div>
                   <span className="text-blue-200/50 text-sm">שם ההורה</span>
                   <p className="text-white">{selectedRegistration.parent_name}</p>
+                </div>
+                <div>
+                  <span className="text-blue-200/50 text-sm">מייל הורה</span>
+                  <p className="text-white" dir="ltr">{selectedRegistration.parent_email || "-"}</p>
                 </div>
                 <div>
                   <span className="text-blue-200/50 text-sm">טלפון</span>

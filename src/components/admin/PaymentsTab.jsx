@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { base44 } from "@/api/base44Client";
+import { supabase } from "@/lib/supabaseClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -25,12 +25,20 @@ export default function PaymentsTab({ registrations, payments }) {
   const queryClient = useQueryClient();
 
   const createPaymentMutation = useMutation({
-    mutationFn: (data) => base44.entities.Payment.create(data),
+    mutationFn: async (data) => {
+      const { data: inserted, error } = await supabase.from("payments").insert([data]).select().single();
+      if (error) throw error;
+      return inserted;
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["payments"] })
   });
 
   const updatePaymentMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.Payment.update(id, data),
+    mutationFn: async ({ id, data }) => {
+      const { data: updated, error } = await supabase.from("payments").update(data).eq("id", id).select().single();
+      if (error) throw error;
+      return updated;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });
       setEditingPayment(null);
@@ -84,8 +92,14 @@ export default function PaymentsTab({ registrations, payments }) {
     const file = e.target.files[0];
     if (!file) return;
     setUploadingReceipt(true);
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    setEditingPayment(prev => ({ ...prev, receipt_url: file_url }));
+    const fileName = `receipts/${Date.now()}-${crypto.randomUUID()}-${file.name}`;
+    const { data, error } = await supabase.storage.from("receipts").upload(fileName, file, { upsert: false });
+    if (error) {
+      setUploadingReceipt(false);
+      throw error;
+    }
+    const { data: { publicUrl } } = supabase.storage.from("receipts").getPublicUrl(data.path);
+    setEditingPayment(prev => ({ ...prev, receipt_url: publicUrl }));
     setUploadingReceipt(false);
   };
 
