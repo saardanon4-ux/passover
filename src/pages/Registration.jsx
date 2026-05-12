@@ -173,7 +173,7 @@ export default function Registration() {
             <img src={LOGO_URL} alt="אריות דדו" className="w-24 h-24 mx-auto mb-4 object-contain" />
           </Link>
           <h1 className="text-3xl md:text-4xl font-black text-white mb-2">הרשמה למחנה</h1>
-          <p className="text-blue-100/50">פסח 2026 • 24-30 במרץ</p>
+          <p className="text-blue-100/50">מחנה קיץ 2026 • 5–9 ביולי (ראשון–חמישי)</p>
         </motion.div>
 
         {/* Form */}

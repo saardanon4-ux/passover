@@ -1,0 +1,19 @@
+{
+  "name": "מחנה ספורט וערכים - אריות דדו",
+  "short_name": "אריות דדו",
+  "description": "מחנה ספורט וערכים לילדי כיתות ד׳–ו׳",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1b2a",
+  "theme_color": "#1a237e",
+  "lang": "he",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/og-image.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -158,7 +158,7 @@ export default function Admin() {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white">מערכת ניהול</h1>
-              <p className="text-blue-200/50 text-sm">מחנה אריות דדו - פסח 2026</p>
+              <p className="text-blue-200/50 text-sm">מחנה אריות דדו — קיץ 2026</p>
             </div>
           </div>
           <Link

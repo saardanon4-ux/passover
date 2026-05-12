@@ -48,7 +48,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <span className="inline-block px-4 py-1.5 bg-blue-500/20 border border-blue-400/30 rounded-full text-blue-300 text-sm font-medium mb-6 backdrop-blur-sm">
-            פסח 2026 • 24-30 במרץ
+            מחנה קיץ 2026 • 5–9 ביולי (ראשון–חמישי)
           </span>
         </motion.div>
 
@@ -64,6 +64,17 @@ export default function HeroSection() {
             והערכים
           </span>
         </motion.h1>
+
+        <motion.p
+          className="text-2xl md:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight tracking-tight"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.35 }}
+        >
+          <span className="text-transparent bg-clip-text bg-gradient-to-l from-amber-200 via-yellow-300 to-amber-400">
+            5 ימים של כיף, משמעות וכדורגל
+          </span>
+        </motion.p>
 
         <motion.p
           className="text-lg md:text-xl text-blue-100/70 max-w-2xl mx-auto mb-8 leading-relaxed"
@@ -126,7 +137,7 @@ export default function HeroSection() {
         >
           <div className="bg-gradient-to-l from-amber-500/20 to-yellow-500/20 border border-yellow-500/30 rounded-2xl px-6 py-3 backdrop-blur-sm">
             <span className="text-yellow-300 font-bold text-lg">₪850</span>
-            <span className="text-yellow-200/70 text-sm mr-2">בהרשמה מוקדמת עד 11.3.2026</span>
+            <span className="text-yellow-200/70 text-sm mr-2">מחיר למחנה</span>
           </div>
         </motion.div>
       </div>

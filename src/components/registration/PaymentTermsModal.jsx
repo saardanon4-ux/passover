@@ -16,20 +16,14 @@ export default function PaymentTermsModal({ open, onClose }) {
         </DialogHeader>
         <div className="space-y-5 text-blue-100/80 text-sm leading-relaxed mt-4">
           <div>
-            <p className="font-bold text-blue-300 text-base mb-2">🏆 הרשמה מוקדמת במחיר מיוחד!</p>
-            <p>💰 850 ש״ח בלבד לנרשמים עד 11.3.2026</p>
-            <p>📌 לאחר תאריך זה — 930 ש״ח</p>
+            <p className="font-bold text-blue-300 text-base mb-2">מחנה קיץ 2026 • 5–9 ביולי</p>
+            <p>💰 עלות ההשתתפות במחנה: 850 ש״ח לילד.</p>
             <p>👨‍👩‍👧‍👦 הרשמה לשני אחים ומעלה? קבלו 10% הנחה לכל ילד נוסף!</p>
-          </div>
-          
-          <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
-            <p className="font-bold text-amber-300 mb-1">📢 שימו לב!</p>
-            <p>כדי ליהנות מהמחיר המוזל של ההרשמה המוקדמת, יש להשלים את התשלום עד 11.3.2026.</p>
           </div>
 
           <div className="border-t border-white/10 pt-4">
             <p className="font-bold text-blue-300 text-base mb-3">מדיניות ביטולים ותשלומים</p>
-            
+
             <div className="space-y-2">
               <p>✅ <strong>תשלום והבטחת מקום:</strong></p>
               <p>מקום במחנה מובטח רק לאחר השלמת התשלום המלא.</p>
@@ -37,13 +31,13 @@ export default function PaymentTermsModal({ open, onClose }) {
 
             <div className="space-y-2 mt-3">
               <p>❌ <strong>מדיניות ביטולים:</strong></p>
-              <p>🔹 ביטול עד 15.3.2026 — החזר מלא.</p>
-              <p>🔹 ביטול בין 16.3.2026 ל-20.3.2026 — החזר של 50% מהתשלום.</p>
+              <p>🔹 ביטול עד 15.6.2026 — החזר מלא.</p>
+              <p>🔹 ביטול בין 16.6.2026 ל-25.6.2026 — החזר של 50% מהתשלום.</p>
             </div>
           </div>
 
           <p className="text-blue-400 font-bold text-center text-base mt-4">
-            ⚽ מקומות מוגבלים — נרשמים עכשיו ונהנים מהמחיר המוזל!
+            ⚽ מקומות מוגבלים — נרשמים עכשיו!
           </p>
         </div>
 
