@@ -239,15 +239,16 @@ export default function Registration() {
           {/* Grade & Shirt Size */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label className="text-blue-100/80 text-sm font-medium">כיתה</Label>
+              <Label className="text-blue-100/80 text-sm font-medium">מסיים כיתה</Label>
               <Select value={form.grade} onValueChange={(v) => updateField("grade", v)}>
-                <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
-                  <SelectValue placeholder="בחר כיתה" />
+                <SelectTrigger className="bg-white/5 border-white/10 text-white h-12 text-right" dir="rtl">
+                  <SelectValue placeholder="בחר/י כיתה" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#0f2044] border-white/10">
-                  <SelectItem value="ד" className="text-white hover:bg-white/10">כיתה ד׳</SelectItem>
-                  <SelectItem value="ה" className="text-white hover:bg-white/10">כיתה ה׳</SelectItem>
-                  <SelectItem value="ו" className="text-white hover:bg-white/10">כיתה ו׳</SelectItem>
+                <SelectContent className="bg-[#0f2044] border-white/10 text-right" dir="rtl">
+                  <SelectItem value="ג" className="text-white hover:bg-white/10 text-right">כיתה ג׳</SelectItem>
+                  <SelectItem value="ד" className="text-white hover:bg-white/10 text-right">כיתה ד׳</SelectItem>
+                  <SelectItem value="ה" className="text-white hover:bg-white/10 text-right">כיתה ה׳</SelectItem>
+                  <SelectItem value="ו" className="text-white hover:bg-white/10 text-right">כיתה ו׳</SelectItem>
                 </SelectContent>
               </Select>
               {errors.grade && <p className="text-red-400 text-xs">{errors.grade}</p>}
