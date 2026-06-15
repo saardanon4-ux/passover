@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "../../utils";
 import { Check, ChevronLeft } from "lucide-react";
+import { REGISTRATION_OPEN, CONTACT } from "@/config/camp";
+import CampClosureNotice from "./CampClosureNotice";
 
 const INCLUDED = [
   "5 ימי מחנה מושקעים",
@@ -62,14 +64,20 @@ export default function PricingSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <Link
-            to={createPageUrl("Registration")}
-            className="group inline-flex items-center gap-2 px-10 py-4 bg-gradient-to-l from-blue-500 to-blue-600 text-white font-bold text-lg rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
-          >
-            הירשמו עכשיו
-            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          </Link>
-          <p className="text-blue-200/30 text-sm mt-4">מקומות מוגבלים!</p>
+          {REGISTRATION_OPEN ? (
+            <>
+              <Link
+                to={createPageUrl("Registration")}
+                className="group inline-flex items-center gap-2 px-10 py-4 bg-gradient-to-l from-blue-500 to-blue-600 text-white font-bold text-lg rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+              >
+                הירשמו עכשיו
+                <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+              </Link>
+              <p className="text-blue-200/30 text-sm mt-4">מקומות מוגבלים!</p>
+            </>
+          ) : (
+            <CampClosureNotice className="max-w-lg mx-auto text-right" />
+          )}
         </motion.div>
       </div>
     </section>

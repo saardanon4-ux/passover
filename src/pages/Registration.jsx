@@ -12,6 +12,8 @@ import { createPageUrl } from "../utils";
 import { ArrowRight, Loader2, CheckCircle2, Pen } from "lucide-react";
 import SignaturePad from "../components/registration/SignaturePad";
 import PaymentTermsModal from "../components/registration/PaymentTermsModal";
+import CampClosureNotice from "../components/landing/CampClosureNotice";
+import { REGISTRATION_OPEN } from "@/config/camp";
 
 const LOGO_URL = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6926de6ecd587609884dccf2/76fb90dd7_1.png";
 
@@ -130,6 +132,32 @@ export default function Registration() {
     updateField("signature_url", dataUrl);
     setShowSignaturePad(false);
   };
+
+  if (!REGISTRATION_OPEN) {
+    return (
+      <div className="min-h-screen bg-[#0d1b2a] flex items-center justify-center px-4 py-10" dir="rtl">
+        <motion.div
+          className="text-center max-w-lg w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Link to={createPageUrl("Home")}>
+            <img src={LOGO_URL} alt="אריות דדו" className="w-24 h-24 mx-auto mb-6 object-contain" />
+          </Link>
+          <h1 className="text-3xl font-black text-white mb-6">ההרשמה סגורה</h1>
+          <CampClosureNotice />
+          <Link
+            to={createPageUrl("Home")}
+            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 mt-8 transition-colors"
+          >
+            <ArrowRight className="w-4 h-4" />
+            חזרה לדף הבית
+          </Link>
+        </motion.div>
+      </div>
+    );
+  }
 
   if (submitted) {
     return (

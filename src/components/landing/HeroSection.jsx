@@ -2,7 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "../../utils";
-import { ChevronLeft, Calendar, Users, Trophy } from "lucide-react";
+import { ChevronLeft, Calendar, Users, Trophy, Phone } from "lucide-react";
+import { REGISTRATION_OPEN, CONTACT } from "@/config/camp";
+import CampClosureNotice from "./CampClosureNotice";
 
 const LOGO_URL = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6926de6ecd587609884dccf2/76fb90dd7_1.png";
 
@@ -45,11 +47,10 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.15 }}
+          className="mb-8"
         >
-          <span className="inline-block px-4 py-1.5 bg-blue-500/20 border border-blue-400/30 rounded-full text-blue-300 text-sm font-medium mb-6 backdrop-blur-sm">
-            מחנה קיץ 2026 • 5–9 ביולי (ראשון–חמישי)
-          </span>
+          <CampClosureNotice />
         </motion.div>
 
         <motion.h1
@@ -113,13 +114,24 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <Link
-            to={createPageUrl("Registration")}
-            className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-l from-blue-500 to-blue-600 text-white font-bold text-lg rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
-          >
-            הרשמה למחנה
-            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          </Link>
+          {REGISTRATION_OPEN ? (
+            <Link
+              to={createPageUrl("Registration")}
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-l from-blue-500 to-blue-600 text-white font-bold text-lg rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+            >
+              הרשמה למחנה
+              <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            </Link>
+          ) : (
+            <a
+              href={CONTACT.phoneHref}
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-l from-amber-500 to-orange-600 text-white font-bold text-lg rounded-xl hover:from-amber-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-amber-500/25"
+              dir="ltr"
+            >
+              <Phone className="w-5 h-5" />
+              {CONTACT.phone}
+            </a>
+          )}
           <a
             href="#schedule"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 text-white font-semibold text-lg rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/10 backdrop-blur-sm"
@@ -129,6 +141,7 @@ export default function HeroSection() {
         </motion.div>
 
         {/* Price badge */}
+        {REGISTRATION_OPEN && (
         <motion.div
           className="mt-10 inline-block"
           initial={{ opacity: 0 }}
@@ -140,6 +153,7 @@ export default function HeroSection() {
             <span className="text-yellow-200/70 text-sm mr-2">מחיר למחנה</span>
           </div>
         </motion.div>
+        )}
       </div>
 
       {/* Bottom gradient fade */}
